@@ -1,0 +1,71 @@
+body {
+    width: 300px;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+}
+
+.tabs {
+    display: flex;
+    background-color: #f0f0f0;
+}
+
+.tab {
+    padding: 10px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.tab.active {
+    background-color: #87CEEB;
+    /* input-area と同じ背景色 */
+    color: white;
+    /* テキストの色を変更してコントラストを付ける */
+}
+
+.tab-1 {
+    background-color: #87CEEB;
+}
+
+.tab-2 {
+    background-color: #FFC0CB;
+}
+
+.tab-3 {
+    background-color: #DDA0DD;
+}
+
+.input-area {
+    flex: 1;
+    background-color: #87CEEB;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.input-group {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+textarea {
+    flex: 1;
+    height: 60px;
+    resize: vertical;
+}
+
+button {
+    margin-left: 5px;
+}
+
+.add-btn {
+    display: block;
+    margin: 10px auto;
+    width: 30px;
+    height: 30px;
+}

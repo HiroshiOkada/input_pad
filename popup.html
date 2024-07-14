@@ -6,7 +6,17 @@
 </head>
 
 <body>
-    <h1>A Notepad for input</h1>
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" data-tab="1">Tab 1</button>
+            <button class="tab" data-tab="2">Tab 2</button>
+            <button class="tab" data-tab="3">Tab 3</button>
+        </div>
+        <div class="input-area" id="inputArea">
+            <!-- テキストエリアはJavaScriptで動的に生成します -->
+        </div>
+        <button class="add-btn" id="addBtn">+</button>
+    </div>
     <script src="popup.js"></script>
 </body>
 

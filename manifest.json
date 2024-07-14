@@ -3,7 +3,24 @@
     "name": "input pad",
     "version": "1.0",
     "description": "A Notepad for input",
+    "permissions": [
+        "storage",
+        "activeTab"
+    ],
     "action": {
         "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ],
+    "background": {
+        "service_worker": "background.js"
     }
 }
