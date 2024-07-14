@@ -6,6 +6,19 @@ document.addEventListener('DOMContentLoaded', () => {
     loadData();
     setupEventListeners();
     updateActiveTab(); // 初期状態でアクティブなタブを設定
+
+
+    // ポップアップの幅を最大に設定
+    const setMaxWidth = () => {
+        const maxWidth = 800; // Chrome拡張機能ポップアップの最大幅（実際の制限に応じて調整）
+        document.body.style.width = `${maxWidth}px`;
+    };
+
+    setMaxWidth();
+
+    // ウィンドウのリサイズ時にも幅を調整（オプション）
+    window.addEventListener('resize', setMaxWidth);
+
 });
 
 function setupEventListeners() {
