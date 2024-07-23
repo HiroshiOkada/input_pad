@@ -1,0 +1,16 @@
+*
+!/
+
+!.gitignore
+!background.js
+!content.js
+!icon_generator.py
+!icons/icon128.png
+!icons/icon16.png
+!icons/icon48.png
+!manifest.json
+!popup.html
+!popup.js
+!readme-ja.md
+!readme.md
+!styles.css
