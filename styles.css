@@ -1,9 +1,11 @@
+/* 基本的なボディスタイル */
 body {
     width: 300px;
     margin: 0;
     font-family: Arial, sans-serif;
 }
 
+/* HTML と body の全体サイズ設定 */
 body,
 html {
     margin: 0;
@@ -12,6 +14,7 @@ html {
     width: 100%;
 }
 
+/* コンテナの全体レイアウト */
 .container {
     display: flex;
     flex-direction: column;
@@ -20,59 +23,81 @@ html {
     overflow: auto;
 }
 
+/* タブ全体のスタイル */
 .tabs {
     display: flex;
     background-color: #f0f0f0;
 }
 
+/* 個々のタブのスタイル */
 .tab {
     padding: 10px;
     border: none;
-    background-color: #f0f0f0;
+    background-color: #A9A9A9;
+    /* 非選択時の灰色 */
     cursor: pointer;
-}
-
-.tab.active {
-    background-color: #87CEEB;
-    /* input-area と同じ背景色 */
     color: white;
-    /* テキストの色を変更してコントラストを付ける */
 }
 
-.tab-1 {
-    background-color: #87CEEB;
+/* アクティブなタブのスタイル（色ごと） */
+.tab.active[data-color="blue"] {
+    background-color: #E6F3FF;
+    /* 淡い青 */
+    color: black;
 }
 
-.tab-2 {
-    background-color: #FFC0CB;
+.tab.active[data-color="yellow"] {
+    background-color: #FFFFE0;
+    /* 淡い黄色 */
+    color: black;
 }
 
-.tab-3 {
-    background-color: #DDA0DD;
+.tab.active[data-color="green"] {
+    background-color: #E6FFE6;
+    /* 淡い緑 */
+    color: black;
 }
 
+/* 入力エリアの基本スタイル */
 .input-area {
     flex: 1;
-    background-color: #87CEEB;
+    background-color: #A9A9A9;
     padding: 10px;
     overflow-y: auto;
 }
 
+/* 入力エリアの色（タブに応じて変更） */
+.input-area[data-color="blue"] {
+    background-color: #E6F3FF;
+}
+
+.input-area[data-color="yellow"] {
+    background-color: #FFFFE0;
+}
+
+.input-area[data-color="green"] {
+    background-color: #E6FFE6;
+}
+
+/* 入力グループのレイアウト */
 .input-group {
     display: flex;
     margin-bottom: 10px;
 }
 
+/* テキストエリアのスタイル */
 textarea {
     flex: 1;
     height: 60px;
     resize: vertical;
 }
 
+/* ボタンの基本スタイル */
 button {
     margin-left: 5px;
 }
 
+/* 追加ボタンのスタイル */
 .add-btn {
     display: block;
     margin: 10px auto;

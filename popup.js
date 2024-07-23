@@ -1,7 +1,8 @@
+// グローバル変数
 let currentTab = 1;
 const MAX_ITEMS = 10;
 
-// DOMContentLoaded イベントリスナー内に以下を追加
+// DOMの読み込み完了時に実行
 document.addEventListener('DOMContentLoaded', () => {
     loadData();
     setupEventListeners();
@@ -21,14 +22,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+// イベントリスナーのセットアップ
 function setupEventListeners() {
+    // タブ切り替えのイベントリスナー
     document.querySelectorAll('.tab').forEach(tab => {
         tab.addEventListener('click', () => switchTab(parseInt(tab.dataset.tab)));
     });
 
+    // 新規アイテム追加ボタンのイベントリスナー
     document.getElementById('addBtn').addEventListener('click', addNewItem);
 }
 
+// タブ切り替え処理
 function switchTab(tabNumber) {
     // 前のタブのデータをクリーンアップ
     cleanupData(currentTab).then(() => {
@@ -38,15 +43,22 @@ function switchTab(tabNumber) {
     });
 }
 
+// アクティブなタブの更新
 function updateActiveTab() {
-    // すべてのタブから 'active' クラスを削除
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.classList.remove('active');
+    const tabs = document.querySelectorAll('.tab');
+    const inputArea = document.getElementById('inputArea');
+    tabs.forEach(tab => {
+        if (parseInt(tab.dataset.tab) === currentTab) {
+            tab.classList.add('active');
+            const color = tab.dataset.color;
+            inputArea.dataset.color = color;
+        } else {
+            tab.classList.remove('active');
+        }
     });
-    // 現在のタブに 'active' クラスを追加
-    document.querySelector(`.tab[data-tab="${currentTab}"]`).classList.add('active');
 }
 
+// データのクリーンアップ（空のアイテムを削除）
 function cleanupData(tabNumber) {
     return new Promise((resolve) => {
         chrome.storage.sync.get(`tab${tabNumber}`, (result) => {
@@ -71,6 +83,7 @@ function loadData() {
     });
 }
 
+// アイテムの描画
 function renderItems(items) {
     const inputArea = document.getElementById('inputArea');
     inputArea.innerHTML = '';
@@ -80,6 +93,7 @@ function renderItems(items) {
     document.getElementById('addBtn').style.display = items.length < MAX_ITEMS ? 'block' : 'none';
 }
 
+// 入力グループの作成
 function createInputGroup(text, index) {
     const div = document.createElement('div');
     div.className = 'input-group';
@@ -94,6 +108,7 @@ function createInputGroup(text, index) {
     return div;
 }
 
+// 新規アイテムの追加
 function addNewItem() {
     chrome.storage.sync.get(`tab${currentTab}`, (result) => {
         const data = result[`tab${currentTab}`] || [];
@@ -104,18 +119,21 @@ function addNewItem() {
     });
 }
 
+// データの保存
 function saveData() {
     const textareas = document.querySelectorAll('.input-group textarea');
     const data = Array.from(textareas).map(textarea => textarea.value);
     chrome.storage.sync.set({ [`tab${currentTab}`]: data });
 }
 
+// テキストのコピー
 function copyText(index) {
     const textarea = document.querySelectorAll('.input-group textarea')[index];
     textarea.select();
     document.execCommand('copy');
 }
 
+// テキストの挿入
 function insertText(index) {
     const textarea = document.querySelectorAll('.input-group textarea')[index];
     const textToInsert = textarea.value;
