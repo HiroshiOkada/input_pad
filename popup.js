@@ -2,6 +2,16 @@
 let currentTab = 1;
 const MAX_ITEMS = 10;
 
+// デバウンス関数
+function debounce(func, delay) {
+    let timeout;
+    return function(...args) {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), delay);
+    }
+}
+
 // DOMの読み込み完了時に実行
 document.addEventListener('DOMContentLoaded', () => {
     loadData();
@@ -71,7 +81,12 @@ function cleanupData(tabNumber) {
             // 空のアイテムを削除
             data = data.slice(0, lastNonEmptyIndex + 1);
             // 更新されたデータを保存
-            chrome.storage.sync.set({ [`tab${tabNumber}`]: data }, resolve);
+            chrome.storage.sync.set({ [`tab${tabNumber}`]: data }, () => {
+                if (chrome.runtime.lastError) {
+                    console.error("Error during cleanupData save:", chrome.runtime.lastError);
+                }
+                resolve();
+            });
         });
     });
 }
@@ -102,7 +117,7 @@ function createInputGroup(text, index) {
         <button class="copy-btn">Copy</button>
         <button class="insert-btn">Insert</button>
     `;
-    div.querySelector('textarea').addEventListener('input', () => saveData());
+    div.querySelector('textarea').addEventListener('input', debouncedSaveData);
     div.querySelector('.copy-btn').addEventListener('click', () => copyText(index));
     div.querySelector('.insert-btn').addEventListener('click', () => insertText(index));
     return div;
@@ -123,8 +138,15 @@ function addNewItem() {
 function saveData() {
     const textareas = document.querySelectorAll('.input-group textarea');
     const data = Array.from(textareas).map(textarea => textarea.value);
-    chrome.storage.sync.set({ [`tab${currentTab}`]: data });
+    chrome.storage.sync.set({ [`tab${currentTab}`]: data }, () => {
+        if (chrome.runtime.lastError) {
+            console.error("Error during saveData:", chrome.runtime.lastError);
+        }
+    });
 }
+
+// デバウンスされた保存関数
+const debouncedSaveData = debounce(saveData, 500);
 
 // テキストのコピー
 function copyText(index) {
